@@ -1,0 +1,59 @@
+name: 'CodeAnt CI Scan'
+description: 'Run CodeAnt CI security and code quality analysis on your repository'
+author: 'CodeAnt'
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  access_token:
+    description: 'CodeAnt access token (PAT or repository token)'
+    required: true
+  api_base:
+    description: 'CodeAnt API base URL'
+    required: false
+    default: 'https://api.codeant.ai'
+  include_paths:
+    description: 'Comma-separated paths to include in scan'
+    required: false
+    default: ''
+  exclude_paths:
+    description: 'Comma-separated paths to exclude from scan'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Fetch CodeAnt scan script
+      shell: bash
+      env:
+        API_BASE: ${{ inputs.api_base }}
+      run: |
+        curl -sS -X GET "${API_BASE}/analysis/ci/scan/script/get" \
+          --output start_scan.sh.b64
+
+    - name: Make script executable
+      shell: bash
+      run: |
+        base64 -d start_scan.sh.b64 > start_scan.sh
+        chmod +x start_scan.sh
+
+    - name: Trigger CodeAnt analysis
+      shell: bash
+      env:
+        ACCESS_TOKEN: ${{ inputs.access_token }}
+        REPO_NAME: ${{ github.repository }}
+        COMMIT_ID: ${{ github.sha }}
+        BRANCH: ${{ github.ref_name }}
+        INCLUDE_PATHS: ${{ inputs.include_paths }}
+        EXCLUDE_PATHS: ${{ inputs.exclude_paths }}
+      run: |
+        bash start_scan.sh \
+          -a "$ACCESS_TOKEN" \
+          -r "$REPO_NAME" \
+          -c "$COMMIT_ID" \
+          -b "$BRANCH" \
+          -s github \
+          -i "$INCLUDE_PATHS" \
+          -e "$EXCLUDE_PATHS"
