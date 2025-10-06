@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="codeantlogo.jpg" alt="CodeAnt Logo" width="300"/>
+</p>
+
 # CodeAnt CI Scan Action
 
 A GitHub Action to run CodeAnt CI security and code quality analysis on your repository.
@@ -35,7 +39,7 @@ jobs:
       - name: Run CodeAnt CI Scan
         uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
         with:
-          access_token: ${{ secrets.CODEANT_ACCESS_TOKEN }}
+          access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 ```
 
 ### Advanced Usage
@@ -46,7 +50,7 @@ Customize the scan with additional options:
 - name: Run CodeAnt CI Scan
   uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
   with:
-    access_token: ${{ secrets.CODEANT_ACCESS_TOKEN }}
+    access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     api_base: 'https://api.codeant.ai'
     include_paths: 'src/,lib/'
     exclude_paths: 'test/,docs/'
@@ -131,7 +135,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
         with:
-          access_token: ${{ secrets.CODEANT_ACCESS_TOKEN }}
+          access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 ```
 
 ### Scan Specific Directories
@@ -139,7 +143,7 @@ jobs:
 ```yaml
 - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
   with:
-    access_token: ${{ secrets.CODEANT_ACCESS_TOKEN }}
+    access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
     include_paths: 'src/,backend/'
     exclude_paths: 'src/tests/,backend/vendor/'
 ```
@@ -160,7 +164,7 @@ jobs:
 
 ## Support
 
-- 📧 Email: support@codeant.ai
+- 📧 Email: chinmay@codeant.ai
 - 📚 Documentation: [https://docs.codeant.ai](https://docs.codeant.ai)
 - 🐛 Issues: [GitHub Issues](https://github.com/CodeAnt-AI/codeant-ci-scan-action/issues)
 
