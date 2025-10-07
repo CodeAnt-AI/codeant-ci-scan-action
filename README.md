@@ -152,7 +152,7 @@ jobs:
 
 ### Authentication Errors
 
-- Ensure your `CODEANT_ACCESS_TOKEN` is correctly set in repository secrets
+- Ensure your `GITHUB_ACCESS_TOKEN` is correctly set in repository secrets
 - Verify the token hasn't expired
 - Check that the token has the necessary permissions
 
