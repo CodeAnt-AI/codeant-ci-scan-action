@@ -79,7 +79,7 @@ Customize the scan with additional options:
 1. Go to your repository's Settings
 2. Navigate to Secrets and variables → Actions
 3. Click "New repository secret"
-4. Name: `CODEANT_ACCESS_TOKEN`
+4. Name: `GITHUB_ACCESS_TOKEN`
 5. Value: Paste your CodeAnt access token
 6. Click "Add secret"
 
