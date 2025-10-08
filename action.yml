@@ -35,8 +35,14 @@ runs:
 
     - name: Make script executable
       shell: bash
+      env:
+        API_BASE: ${{ inputs.api_base }}
       run: |
-        base64 -d start_scan.sh.b64 > start_scan.sh
+        if [ "$API_BASE" = "https://api.codeant.ai" ]; then
+          base64 -d start_scan.sh.b64 > start_scan.sh
+        else
+          mv start_scan.sh.b64 start_scan.sh
+        fi
         chmod +x start_scan.sh
 
     - name: Trigger CodeAnt analysis
