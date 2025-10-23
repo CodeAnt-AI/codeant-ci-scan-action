@@ -39,7 +39,7 @@ jobs:
       - name: Run CodeAnt CI Scan
         uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
         with:
-          access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
 
 ### Advanced Usage
@@ -50,7 +50,7 @@ Customize the scan with additional options:
 - name: Run CodeAnt CI Scan
   uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
   with:
-    access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     api_base: 'https://api.codeant.ai'
     include_paths: 'src/,lib/'
     exclude_paths: 'test/,docs/'
@@ -79,7 +79,7 @@ Customize the scan with additional options:
 1. Go to your repository's Settings
 2. Navigate to Secrets and variables → Actions
 3. Click "New repository secret"
-4. Name: `GITHUB_ACCESS_TOKEN`
+4. Name: `ACCESS_TOKEN_GITHUB`
 5. Value: Paste your CodeAnt access token
 6. Click "Add secret"
 
@@ -135,7 +135,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
         with:
-          access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
 
 ### Scan Specific Directories
@@ -143,7 +143,7 @@ jobs:
 ```yaml
 - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
   with:
-    access_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     include_paths: 'src/,backend/'
     exclude_paths: 'src/tests/,backend/vendor/'
 ```
@@ -152,7 +152,7 @@ jobs:
 
 ### Authentication Errors
 
-- Ensure your `GITHUB_ACCESS_TOKEN` is correctly set in repository secrets
+- Ensure your `ACCESS_TOKEN_GITHUB` is correctly set in repository secrets
 - Verify the token hasn't expired
 - Check that the token has the necessary permissions
 
