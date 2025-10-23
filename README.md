@@ -116,7 +116,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
         with:
-          access_token: ${{ secrets.CODEANT_ACCESS_TOKEN }}
+          access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
 
 ### Scheduled Daily Scan
