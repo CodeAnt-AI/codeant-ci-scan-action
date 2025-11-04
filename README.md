@@ -54,6 +54,7 @@ Customize the scan with additional options:
     api_base: 'https://api.codeant.ai'
     include_paths: 'src/,lib/'
     exclude_paths: 'test/,docs/'
+    scan_timeout: '600'
 ```
 
 ## Inputs
@@ -64,6 +65,7 @@ Customize the scan with additional options:
 | `api_base` | CodeAnt API base URL | No | `https://api.codeant.ai` |
 | `include_paths` | Comma-separated paths to include in scan | No | `''` (all files) |
 | `exclude_paths` | Comma-separated paths to exclude from scan | No | `''` (none) |
+| `scan_timeout` | Scan timeout in seconds | No | `300` |
 
 ## Setup
 
@@ -148,6 +150,17 @@ jobs:
     exclude_paths: 'src/tests/,backend/vendor/'
 ```
 
+### Custom Timeout Configuration
+
+Configure a longer timeout for large repositories:
+
+```yaml
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.1
+  with:
+    access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
+    scan_timeout: '900'  # 15 minutes (default: 300 seconds / 5 minutes)
+```
+
 ## Troubleshooting
 
 ### Authentication Errors
@@ -161,6 +174,12 @@ jobs:
 - Verify your repository is accessible
 - Check that the API base URL is correct
 - Review the action logs for specific error messages
+
+### Timeout Issues
+
+- If scans are timing out, increase the `scan_timeout` value (default: 300 seconds)
+- For large repositories, consider setting `scan_timeout: '900'` or higher
+- Check network connectivity if timeouts persist
 
 ## Support
 

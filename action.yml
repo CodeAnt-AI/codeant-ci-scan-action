@@ -21,6 +21,10 @@ inputs:
     description: 'Comma-separated paths to exclude from scan'
     required: false
     default: ''
+  scan_timeout:
+    description: 'Scan timeout in seconds'
+    required: false
+    default: '300'
 
 runs:
   using: 'composite'
@@ -54,6 +58,7 @@ runs:
         BRANCH: ${{ github.ref_name }}
         INCLUDE_PATHS: ${{ inputs.include_paths }}
         EXCLUDE_PATHS: ${{ inputs.exclude_paths }}
+        SCAN_TIMEOUT: ${{ inputs.scan_timeout }}
       run: |
         bash start_scan.sh \
           -a "$ACCESS_TOKEN" \
@@ -62,4 +67,5 @@ runs:
           -b "$BRANCH" \
           -s github \
           -i "$INCLUDE_PATHS" \
-          -e "$EXCLUDE_PATHS"
+          -e "$EXCLUDE_PATHS" \
+          -t "$SCAN_TIMEOUT"
