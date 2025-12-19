@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run CodeAnt CI Scan
-        uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+        uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -48,7 +48,7 @@ Customize the scan with additional options:
 
 ```yaml
 - name: Run CodeAnt CI Scan
-  uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+  uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     api_base: 'https://api.codeant.ai'
@@ -86,7 +86,7 @@ The `scanners` parameter allows you to customize which security scanners run dur
 
 Run all scanners:
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scanners: 'all'
@@ -94,7 +94,7 @@ Run all scanners:
 
 Run specific scanners:
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scanners: 'sast,secrets,iac'
@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -168,7 +168,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -176,7 +176,7 @@ jobs:
 ### Scan Specific Directories
 
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     include_paths: 'src/,backend/'
@@ -188,7 +188,7 @@ jobs:
 Configure a longer timeout for large repositories:
 
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scan_timeout: '900'  # 15 minutes (default: 300 seconds / 5 minutes)
