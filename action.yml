@@ -29,6 +29,10 @@ inputs:
     description: 'Security scanners to run (sast, sca, secrets, antipatterns, iac, all)'
     required: false
     default: 'sast,sca'
+  quality_gate:
+    description: 'Fail the step when the configured full-repository quality gate fails or results time out'
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -64,7 +68,15 @@ runs:
         EXCLUDE_PATHS: ${{ inputs.exclude_paths }}
         SCAN_TIMEOUT: ${{ inputs.scan_timeout }}
         SCANNERS: ${{ inputs.scanners }}
+        QUALITY_GATE: ${{ inputs.quality_gate }}
       run: |
+        quality_gate_args=()
+        case "$QUALITY_GATE" in
+          true) quality_gate_args+=(--quality-gate) ;;
+          false) ;;
+          *) echo "::error::quality_gate must be 'true' or 'false'"; exit 1 ;;
+        esac
+
         bash start_scan.sh \
           -a "$ACCESS_TOKEN" \
           -r "$REPO_NAME" \
@@ -74,4 +86,5 @@ runs:
           -i "$INCLUDE_PATHS" \
           -e "$EXCLUDE_PATHS" \
           -t "$SCAN_TIMEOUT" \
-          --scanners "$SCANNERS"
+          --scanners "$SCANNERS" \
+          "${quality_gate_args[@]}"
