@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run CodeAnt CI Scan
-        uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+        uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -48,7 +48,7 @@ Customize the scan with additional options:
 
 ```yaml
 - name: Run CodeAnt CI Scan
-  uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+  uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     api_base: 'https://api.codeant.ai'
@@ -57,6 +57,37 @@ Customize the scan with additional options:
     scan_timeout: '600'
     scanners: 'sast,sca,secrets'
 ```
+
+## Block on a failed quality gate
+
+Configure **Full Code** conditions in **CodeAnt → Settings → Code Analysis → Quality Gates**, then enable enforcement:
+
+```yaml
+- name: CodeAnt quality gate
+  uses: CodeAnt-AI/codeant-ci-scan-action@d4e7f37809f110ab9216766e53fbad0061393e27
+  with:
+    access_token: ${{ secrets.CODEANT_TOKEN }}
+    scanners: sast,sca
+    quality_gate: 'true'
+```
+
+This pinned revision supports `quality_gate`; `v0.0.5` does not. The input defaults to `'false'` so existing scan-only workflows keep their behavior.
+
+`quality_gate: 'true'` forwards `--quality-gate` to the CodeAnt scan script. A failed backend verdict or results timeout fails the step. Keep downstream deployment jobs dependent on this job, and use `if: always()` when uploading reports:
+
+```yaml
+- name: Save reports
+  if: ${{ always() }}
+  uses: actions/upload-artifact@v4
+  with:
+    name: codeant-results
+    path: |
+      results.json
+      codeant.sarif
+      codeant-qg.xml
+```
+
+Configure conditions before enforcing: no conditions can produce a native PASSED verdict. The native full-code gate supports SAST/SCA/IaC ratings and duplicate-code conditions; secrets are returned as findings but have no full-code gate metric.
 
 ## Inputs
 
@@ -68,6 +99,7 @@ Customize the scan with additional options:
 | `exclude_paths` | Comma-separated paths to exclude from scan | No | `''` (none) |
 | `scan_timeout` | Scan timeout in seconds | No | `300` |
 | `scanners` | Security scanners to run | No | `sast,sca` |
+| `quality_gate` | Fail the step when the configured full-repository gate fails or results time out (`true`/`false`) | No | `false` |
 
 ## Scanner Options
 
@@ -86,7 +118,7 @@ The `scanners` parameter allows you to customize which security scanners run dur
 
 Run all scanners:
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scanners: 'all'
@@ -94,7 +126,7 @@ Run all scanners:
 
 Run specific scanners:
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scanners: 'sast,secrets,iac'
@@ -149,7 +181,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -168,7 +200,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+      - uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
 ```
@@ -176,7 +208,7 @@ jobs:
 ### Scan Specific Directories
 
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     include_paths: 'src/,backend/'
@@ -188,7 +220,7 @@ jobs:
 Configure a longer timeout for large repositories:
 
 ```yaml
-- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
+- uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     scan_timeout: '900'  # 15 minutes (default: 300 seconds / 5 minutes)
