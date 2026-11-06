@@ -64,16 +64,16 @@ Configure **Full Code** conditions in **CodeAnt → Settings → Code Analysis �
 
 ```yaml
 - name: CodeAnt quality gate
-  uses: CodeAnt-AI/codeant-ci-scan-action@d4e7f37809f110ab9216766e53fbad0061393e27
+  uses: CodeAnt-AI/codeant-ci-scan-action@v0.0.6
   with:
     access_token: ${{ secrets.CODEANT_TOKEN }}
     scanners: sast,sca
     quality_gate: 'true'
 ```
 
-This pinned revision supports `quality_gate`; `v0.0.5` does not. The input defaults to `'false'` so existing scan-only workflows keep their behavior.
+Requires the planned `v0.0.6` release (not published yet); `v0.0.5` does not support `quality_gate`. The input defaults to `'false'` so existing scan-only workflows keep their behavior.
 
-`quality_gate: 'true'` forwards `--quality-gate` to the CodeAnt scan script. A failed backend verdict or results timeout fails the step. Keep downstream deployment jobs dependent on this job, and use `if: always()` when uploading reports:
+A failed backend verdict or results timeout fails the step when enforcement is enabled. Keep downstream deployment jobs dependent on this job, and use `if: always()` when uploading reports:
 
 ```yaml
 - name: Save reports

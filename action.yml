@@ -70,13 +70,6 @@ runs:
         SCANNERS: ${{ inputs.scanners }}
         QUALITY_GATE: ${{ inputs.quality_gate }}
       run: |
-        quality_gate_args=()
-        case "$QUALITY_GATE" in
-          true) quality_gate_args+=(--quality-gate) ;;
-          false) ;;
-          *) echo "::error::quality_gate must be 'true' or 'false'"; exit 1 ;;
-        esac
-
         bash start_scan.sh \
           -a "$ACCESS_TOKEN" \
           -r "$REPO_NAME" \
@@ -87,4 +80,4 @@ runs:
           -e "$EXCLUDE_PATHS" \
           -t "$SCAN_TIMEOUT" \
           --scanners "$SCANNERS" \
-          "${quality_gate_args[@]}"
+          --quality-gate "$QUALITY_GATE"
